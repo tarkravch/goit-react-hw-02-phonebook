@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import shortid from "shortid";
+import styles from "../contact-form/ContactForm.module.css";
 
 class ContactForm extends Component {
   state = {
@@ -7,12 +8,8 @@ class ContactForm extends Component {
     number: "",
   };
   handleChange = (event) => {
-    /*  this.setState({
-      name: event.currentTarget.value,
-      number: event.currentTarget.value,
-    }); */
     const { name, value } = event.currentTarget;
-    console.log(event.currentTarget.value);
+    console.log(this.state.name);
     this.setState({
       [name]: value,
     });
@@ -21,7 +18,6 @@ class ContactForm extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log(this.state);
-    // const [name, number] = event.currentTarget;
     this.props.onSubmit(this.state); /* передаємо значення на проп onSubmit */
     this.reset();
   };
@@ -33,10 +29,11 @@ class ContactForm extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor={this.nameInputId}>
+        <form onSubmit={this.handleSubmit} className={styles.form}>
+          <label htmlFor={this.nameInputId} className={styles.form__label}>
             Name
             <input
+              className={styles.form__input}
               type="text"
               name="name"
               pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -47,9 +44,10 @@ class ContactForm extends Component {
               id={this.nameInputId}
             />
           </label>
-          <label htmlFor={this.numberInputId}>
+          <label htmlFor={this.numberInputId} className={styles.form__label}>
             Number
             <input
+              className={styles.form__input}
               type="tel"
               name="number"
               pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -60,7 +58,9 @@ class ContactForm extends Component {
               id={this.numberInputId}
             />
           </label>
-          <button type="submit">Add contact</button>
+          <button type="submit" className={styles.form__btn}>
+            Add contact
+          </button>
         </form>
       </div>
     );

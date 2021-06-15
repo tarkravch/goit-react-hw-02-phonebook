@@ -3,6 +3,7 @@ import ContactForm from "./components/contact-form/ContactForm";
 import ContactList from "./components/contact-list/ContactList";
 import Filter from "./components/filter/Filter";
 import initialContacts from "./components/contactArr.json";
+import Container from "./components/Container/Container";
 import shortid from "shortid";
 
 class App extends Component {
@@ -23,12 +24,23 @@ class App extends Component {
       ),
     }));
   };
+
+  contactCheck = ({ name, number }) => {
+    const checkedContact = this.state.contacts.find((contact) => {
+      if (contact.name === name) {
+        throw alert(`${name} is already in the contacts`);
+      }
+    });
+    return this.addContact({ name, number });
+  };
+
   addContact = ({ name, number }) => {
     const contact = {
       id: shortid.generate(),
       name: name,
       number: number,
     };
+
     this.setState(({ contacts }) => ({
       contacts: [contact, ...contacts],
     }));
@@ -54,9 +66,9 @@ class App extends Component {
 
     return (
       <>
-        <div>
+        <Container>
           <h1>Phonebook</h1>
-          <ContactForm onSubmit={this.addContact} />
+          <ContactForm onSubmit={this.contactCheck} />
           <h2>Contacts</h2>
           <p>Find contacts by name</p>
           <Filter value={this.state.filter} onChange={this.filterByName} />
@@ -64,7 +76,7 @@ class App extends Component {
             items={visibleContacts}
             onDeleteContact={this.deleteContact}
           />
-        </div>
+        </Container>
       </>
     );
   }
